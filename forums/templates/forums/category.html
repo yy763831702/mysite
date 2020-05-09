@@ -1,0 +1,23 @@
+{% extends 'main/header.html' %}
+
+{% block content %}
+
+{% if subcategories %}
+    <div class = "row">
+    {% for s in subcategories %}
+        <a href="{% url 'forums:detail' c.id %}">
+          <div class = 'col-sm-6'>
+            <div class="card" style="width: 18rem;">
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <p class="card-text">{{ s.subcategory }}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+    {% endfor %}
+    </div>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+{% endblock %}
