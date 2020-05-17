@@ -1,0 +1,16 @@
+{% extends 'main/header.html' %}
+
+{% block content %}
+{% if list %}
+
+    {% for forum in list %}
+    <ul>
+      <a href="{% url 'forums:detail' single_slug=forum.subcategory.category.slug slug=forum.subcategory.slug forum_id=forum.id %}">
+        <li>{{ forum.title }}:{{ forum.desc |safe }}:{{ forum.user }}</li>
+      </a>
+    </ul>
+    {% endfor %}
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+{% endblock %}

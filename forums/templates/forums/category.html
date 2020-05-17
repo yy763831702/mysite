@@ -5,7 +5,7 @@
 {% if subcategories %}
     <div class = "row">
     {% for s in subcategories %}
-        <a href="{% url 'forums:detail' c.id %}">
+        <a href="{% url 'forums:list' single_slug=s.category.slug slug=s.slug %}">
           <div class = 'col-sm-6'>
             <div class="card" style="width: 18rem;">
               <img src="..." class="card-img-top" alt="...">

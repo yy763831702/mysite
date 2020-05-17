@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -16,6 +17,15 @@ class SubCategory(models.Model):
     subcategory = models.CharField(max_length = 100)
     category = models.ForeignKey(Category, blank = True, null = True, on_delete = models.CASCADE)
     desc = models.CharField(max_length = 200)
+    slug = models.SlugField(null = True, blank=True)
+
+    #def get_absolute_url(self):
+    #    return reverse('list', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs): # new
+        if not self.slug:
+            self.slug = slugify(self.subcategory, allow_unicode=True)
+        super(SubCategory, self).save(*args, **kwargs)
 
 class Forum(models.Model):
     def __str__(self):

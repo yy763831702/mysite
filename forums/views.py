@@ -16,18 +16,25 @@ def single_slug(request, single_slug):
 
     if single_slug in categories:
         matching_sub = SubCategory.objects.filter(category__slug=single_slug)
-        return render(request, 'forums/category.html', context = {"subcategories": matching_sub})
+        matching_forums = Forum.objects.filter(subcategory__category__slug=single_slug)
+        return render(request, 'forums/category.html', context = {"subcategories": matching_sub,
+                                                                  "forums":matching_forums,})
 
     return HttpResponse("'{single_slug}' does not correspond to anything we know of!")
 
-def detail(request, forum_id):
+def list(request, single_slug, slug):
+    try:
+        matching_list = Forum.objects.filter(subcategory__slug=slug)
+    except Forum.DoesNotExist:
+        raise Http404("Forum does not exist")
+
+    return render(request, 'forums/list.html', {'list': matching_list})
+
+def detail(request, single_slug, slug, forum_id):
     try:
         forum = Forum.objects.get(pk = forum_id)
 
     except Forum.DoesNotExist:
         raise Http404("Forum does not exist")
 
-    return render(request, 'forums/detail.html', {'forum': forum})
-
-def results(request, forum_id):
-    return HttpResponse("you are looking at response s%" % forum_id)
+    return render(request, 'forums/detail.html', {'forum': forum,})
